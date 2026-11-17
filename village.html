@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Theog (ठियोग) | Mera Ganv — a village archive</title>
+  <meta name="description" content="Himachal village archive with HIFAF editorial design. Living memory, photography, and stories.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --terracotta: #b55e44;
+      --terracotta-deep: #9a4830;
+      --olive: #8d8d70;
+      --mustard: #e1c950;
+      --glacier: #8db6ba;
+      --moss: #4e604f;
+      --moss-light: #859660;
+      --paper: #efe9dd;
+      --paper-deep: #e4dccb;
+      --paper-card: #f6f2ea;
+      --ink: #1a1916;
+      --ink-deep: #11100e;
+      --text-muted: #57534a;
+      --rule: rgba(26, 25, 22, 0.16);
+      --font-display: "Montserrat", "Arial Black", sans-serif;
+      --font-serif: "Instrument Serif", Georgia, serif;
+      --font-mono: "Space Mono", monospace;
+      --ease: cubic-bezier(.2, .7, .1, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Tactile Paper Grain Overlay */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.045'/%3E%3C/svg%3E");
+      opacity: 0.7;
+    }
+
+    /* Loader */
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      transition: opacity 0.8s var(--ease), visibility 0.8s;
+    }
+    .loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loader-title {
+      font-family: var(--font-serif);
+      font-size: 38px;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
+    .loader-sub {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+    }
+    .loader-bar-wrap {
+      width: 140px;
+      height: 2px;
+      background: rgba(26, 25, 22, 0.12);
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    .loader-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: var(--terracotta);
+      transition: width 1.2s var(--ease);
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px clamp(1.2rem, 4vw, 3.5rem);
+      background: rgba(239, 233, 221, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--rule);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .nav-logo-hindi {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: normal;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .nav-logo-sep {
+      color: var(--terracotta);
+      font-size: 14px;
+    }
+    .nav-logo-latin {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: clamp(1rem, 2.5vw, 2.2rem);
+    }
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+    .nav-link:hover { color: var(--ink); }
+    .nav-link.active { color: var(--terracotta); }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: rgba(26, 25, 22, 0.06);
+      border: 1px solid var(--rule);
+      border-radius: 100px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-nav-back:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .btn-nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 20px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--terracotta);
+      border: 1px solid var(--terracotta);
+      border-radius: 100px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-nav-cta:hover {
+      background: var(--terracotta-deep);
+      border-color: var(--terracotta-deep);
+      transform: translateY(-1px);
+    }
+
+    /* Hero Section — HIFAF Layered Landscape Style */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #8db6ba;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      color: #fff;
+      padding-top: 100px;
+    }
+    
+    /* Background scenic layers */
+    .hero-scene {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-sky {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      background: linear-gradient(180deg, #5b879a 0%, #8db6ba 40%, #c4d7d9 85%, #efe9dd 100%);
+    }
+    .hero-sky-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 65%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+    .hero-peaks {
+      position: absolute;
+      top: 14%;
+      left: -2%;
+      width: 104%;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 15px 35px rgba(17, 16, 14, 0.3));
+    }
+    
+    /* Real Location Photography Layer */
+    .hero-photo-layer {
+      position: absolute;
+      top: 32%;
+      left: 0;
+      width: 100%;
+      height: 52%;
+      background-size: cover;
+      background-position: center 30%;
+      filter: saturate(1.1) contrast(1.05);
+      mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 15%, rgba(0,0,0,1) 75%, transparent 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 15%, rgba(0,0,0,1) 75%, transparent 100%);
+    }
+
+    /* Giant Monolithic Wordmark */
+    .hero-wordmark-container {
+      position: absolute;
+      top: 26%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-wordmark {
+      font-family: var(--font-display);
+      font-size: clamp(60px, 13vw, 180px);
+      font-weight: 900;
+      letter-spacing: clamp(4px, 1.2vw, 24px);
+      text-transform: uppercase;
+      line-height: 0.9;
+      color: rgba(255, 255, 255, 0.92);
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+      display: inline-block;
+      user-select: none;
+    }
+    .hero-wordmark-hindi {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: clamp(24px, 4vw, 54px);
+      font-weight: normal;
+      letter-spacing: 0.08em;
+      color: var(--mustard);
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+      margin-top: -5px;
+    }
+
+    /* Meadow base */
+    .hero-meadow {
+      position: absolute;
+      bottom: -2px;
+      left: -2%;
+      width: 104%;
+      height: auto;
+      z-index: 4;
+      pointer-events: none;
+      display: block;
+    }
+
+    /* Hero Content */
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      padding: clamp(2rem, 5vw, 4rem);
+      padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      max-width: 1300px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 24px;
+      background: rgba(17, 16, 14, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 100px;
+      padding: 8px 24px 8px 12px;
+      width: fit-content;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+    .hero-elev-pill {
+      background: var(--terracotta);
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      letter-spacing: 0.05em;
+    }
+    .hero-location-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .hero-location-text span { color: var(--mustard); }
+
+    .hero-title-wrap { max-width: 900px; }
+    .hero-kicker {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: clamp(12px, 1.4vw, 15px);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 12px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+    .hero-statement {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 5.5vw, 68px);
+      line-height: 1.08;
+      font-weight: normal;
+      color: #fff;
+      font-style: italic;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    .hero-statement b {
+      font-style: normal;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--mustard);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(1.2rem, 4vw, 3rem);
+    }
+
+    section {
+      position: relative;
+      padding: clamp(4rem, 8vw, 7.5rem) 0;
+    }
+
+    /* ABOUT SECTION */
+    .about-theog {
+      background: var(--paper);
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .about-pine {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      max-height: 900px;
+      width: auto;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .about-pine-left { left: -40px; transform: scaleX(-1); }
+    .about-pine-right { right: -40px; }
+
+    .about-header {
+      text-align: center;
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+      position: relative;
+      z-index: 2;
+    }
+    .about-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .about-title {
+      font-family: var(--font-serif);
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: normal;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .about-title span {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    /* Film Player */
+    .about-film-wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 960px;
+      margin: 0 auto 3rem;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 25px 60px rgba(26, 25, 22, 0.18);
+      border: 1px solid var(--rule);
+    }
+    .film-aspect {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #0d0e10;
+    }
+    .film-poster {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.85);
+      transition: transform 0.6s var(--ease), filter 0.6s var(--ease);
+    }
+    .film-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 3;
+      transition: background 0.3s ease;
+    }
+    .about-film-wrap:hover .film-poster {
+      transform: scale(1.03);
+      filter: brightness(0.9);
+    }
+
+    .play-circle {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 0 0 0 rgba(181, 94, 68, 0.6);
+      animation: playPulse 2.4s infinite;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+    @keyframes playPulse {
+      0% { box-shadow: 0 0 0 0 rgba(181, 94, 68, 0.7); }
+      70% { box-shadow: 0 0 0 24px rgba(181, 94, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(181, 94, 68, 0); }
+    }
+    .play-circle svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      margin-left: 4px;
+    }
+    .play-caption {
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .film-iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+      z-index: 5;
+    }
+    .film-iframe.active { display: block; }
+
+    .about-lead-box {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .about-lead {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.5;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .about-desc-body {
+      font-family: var(--font-display);
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+      padding-top: 36px;
+      border-top: 1px solid var(--rule);
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+    }
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: 44px;
+      line-height: 1;
+      color: var(--terracotta);
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* HERITAGE */
+    .heritage-section {
+      background: var(--paper-deep);
+      position: relative;
+      border-bottom: 1px solid var(--rule);
+    }
+    .heritage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 24px;
+      margin-top: 3rem;
+    }
+    .heritage-card {
+      background: var(--paper-card);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    }
+    .heritage-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(26, 25, 22, 0.12);
+    }
+    .heritage-card-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--rule);
+    }
+    .heritage-card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .heritage-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--terracotta);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .heritage-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .heritage-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* SPACES */
+    .spaces-section { background: var(--paper); }
+    .spaces-intro {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 3.5rem;
+    }
+    .spaces-gallery {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+    .space-tile {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #111;
+      min-height: 260px;
+      border: 1px solid var(--rule);
+      cursor: pointer;
+    }
+    .space-tile-wide { grid-column: span 7; }
+    .space-tile-narrow { grid-column: span 5; }
+    .space-tile-third { grid-column: span 4; }
+    .space-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      transition: transform 0.5s var(--ease), opacity 0.5s var(--ease);
+    }
+    .space-tile:hover img {
+      transform: scale(1.06);
+      opacity: 0.95;
+    }
+    .space-tile-caption {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(17, 16, 14, 0.85) 100%);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      color: #fff;
+    }
+    .space-tile-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mustard);
+    }
+    .space-tile-name {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      line-height: 1.2;
+      margin-top: 4px;
+    }
+    .space-tile-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-top: 4px;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: #1a1916;
+      color: #efe9dd;
+      position: relative;
+      overflow: hidden;
+      padding: clamp(5rem, 9vw, 8rem) 0;
+      text-align: center;
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .cta-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mustard);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .cta-title {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 5.5vw, 64px);
+      line-height: 1.15;
+      margin-bottom: 24px;
+      font-weight: normal;
+    }
+    .cta-title span { font-style: italic; color: var(--terracotta); }
+    .cta-desc {
+      font-size: clamp(15px, 1.8vw, 18px);
+      line-height: 1.7;
+      color: rgba(239, 233, 221, 0.75);
+      margin-bottom: 36px;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: var(--terracotta);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 100px;
+      font-weight: 700;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 25px rgba(181, 94, 68, 0.35);
+    }
+    .btn-cta-primary:hover {
+      background: var(--terracotta-deep);
+      transform: translateY(-2px);
+    }
+    .btn-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: transparent;
+      color: #efe9dd;
+      border: 1px solid rgba(239, 233, 221, 0.25);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: all 0.25s ease;
+    }
+    .btn-cta-secondary:hover {
+      border-color: #efe9dd;
+      background: rgba(239, 233, 221, 0.08);
+    }
+
+    footer {
+      background: #11100e;
+      color: rgba(239, 233, 221, 0.6);
+      padding: 48px clamp(1.2rem, 4vw, 3.5rem) 36px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .footer-brand-title {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      color: #efe9dd;
+      line-height: 1;
+    }
+    .footer-tagline {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-top: 6px;
+    }
+    .footer-coords {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: rgba(239, 233, 221, 0.45);
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-links a {
+      color: rgba(239, 233, 221, 0.6);
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #efe9dd; }
+
+    .village-switcher {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      background: var(--ink);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .village-switcher:hover {
+      transform: translateY(-2px);
+      background: var(--terracotta);
+    }
+    .village-switcher-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--mustard);
+      box-shadow: 0 0 8px var(--mustard);
+    }
+
+    @media (max-width: 900px) {
+      .nav-menu { display: none; }
+      .space-tile-wide, .space-tile-narrow, .space-tile-third { grid-column: span 12; }
+      .hero { min-height: 90vh; }
+      .hero-wordmark-container { top: 22%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Loader -->
+  <div class="loader" id="page-loader">
+    <div class="loader-title" id="loader-title">मेरा गांव · Village Archive</div>
+    <div class="loader-sub" id="loader-sub">Himachal Pradesh · Devbhoomi</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar" id="loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- Floating Nav Header -->
+  <header class="nav">
+    <a href="index.html" class="nav-brand" aria-label="Mera Ganv Home">
+      <span class="nav-logo-hindi">मेरा गांव</span>
+      <span class="nav-logo-sep">/</span>
+      <span class="nav-logo-latin" id="nav-village-tag">Archive</span>
+    </a>
+
+    <nav class="nav-menu">
+      <a href="#about" class="nav-link active">About</a>
+      <a href="#heritage" class="nav-link">Heritage</a>
+      <a href="#spaces" class="nav-link">Mountain Spaces</a>
+      <a href="#film" class="nav-link">Watch Story</a>
+      <a href="#contribute" class="nav-link">Contribute</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="index.html" class="btn-nav-back">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Himachal Map
+      </a>
+      <a href="#contribute" class="btn-nav-cta">Contribute Story</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <div class="hero-scene" aria-hidden="true">
+        <div class="hero-sky">
+          <img src="assets/sky-blue.webp" alt="Himalayan Sky" class="hero-sky-img" onerror="this.style.display='none'">
+        </div>
+        
+        <img src="assets/snow-peaks.webp" alt="Snow Peaks" class="hero-peaks" onerror="this.style.display='none'">
+        
+        <!-- Real Village Photography Layer -->
+        <div class="hero-photo-layer" id="hero-photo-layer" style="background-image: url('assets/theog-hero.jpg');"></div>
+
+        <!-- Giant Monolithic Wordmark -->
+        <div class="hero-wordmark-container">
+          <div class="hero-wordmark" id="hero-wordmark">THEOG</div>
+          <div class="hero-wordmark-hindi" id="hero-wordmark-hindi">ठियोग · हिमाचल प्रदेश</div>
+        </div>
+
+        <img src="assets/meadow-curved.webp" alt="Meadow Ridge" class="hero-meadow" onerror="this.style.display='none'">
+      </div>
+
+      <!-- Hero Content -->
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-elev-pill" id="hero-elev-pill">2,310m</span>
+          <div class="hero-location-text" id="hero-location-text">
+            Shimla District · <span>Devbhoomi</span> · 31.12° N, 77.35° E
+          </div>
+        </div>
+
+        <div class="hero-title-wrap">
+          <span class="hero-kicker" id="hero-kicker">Not just a stop on the Hindustan-Tibet road</span>
+          <h1 class="hero-statement" id="hero-statement">
+            A sanctuary carved into <b>five mountain ridges</b>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about-theog" id="about">
+      <img src="assets/pine.webp" class="about-pine about-pine-left" alt="" loading="lazy" aria-hidden="true">
+      <img src="assets/pine.webp" class="about-pine about-pine-right" alt="" loading="lazy" aria-hidden="true">
+
+      <div class="container">
+        <div class="about-header">
+          <span class="about-tag">Village Archive · Living Memory</span>
+          <h2 class="about-title">About <span id="about-village-name">Theog</span></h2>
+        </div>
+
+        <!-- Video Player -->
+        <div class="about-film-wrap" id="film">
+          <div class="film-aspect">
+            <img src="assets/theog-hero.jpg" class="film-poster" id="film-poster" alt="Village Panorama">
+            <div class="film-overlay" id="film-overlay" onclick="startFilm()">
+              <div class="play-circle">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div class="play-caption">Play Archive Film</div>
+            </div>
+            <iframe id="video-frame" class="film-iframe" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+          </div>
+        </div>
+
+        <!-- Description Body -->
+        <div class="about-lead-box">
+          <p class="about-lead" id="about-lead">
+            Theog is a historic town and tehsil perched high in the Shimla hills, sitting at 2,310 meters above sea level and 28 kilometers eastward from the state capital.
+          </p>
+          <p class="about-desc-body" id="about-desc-body">
+            With first recorded settlements dating back to 1902, Theog emerged as an indispensable trading hub and gateway along the historic trade tracks to Tibet. Defined by its unique amphitheatre of five distinct ghats (ridges)—Premghat, Rahighat, Deorighat, Janoghat, and Bagaghat—it has preserved centuries of indigenous Kath-Kuni architectural wisdom, apple cultivation, and oral histories.
+          </p>
+        </div>
+
+        <!-- Stats Strip -->
+        <div class="stats-strip">
+          <div class="stat-item">
+            <div class="stat-num" id="stat-elev">2,310m</div>
+            <div class="stat-label">Elevation</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" id="stat-settled">1902</div>
+            <div class="stat-label">Settled / Era</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" id="stat-type">Town</div>
+            <div class="stat-label">Settlement Type</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" id="stat-pop">~4,000</div>
+            <div class="stat-label">Population</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERITAGE SECTION -->
+    <section class="heritage-section" id="heritage">
+      <div class="container">
+        <div class="about-header">
+          <span class="about-tag">Living Heritage</span>
+          <h2 class="about-title">The Character of <span id="heritage-village-name">Theog</span></h2>
+        </div>
+
+        <div class="heritage-grid">
+          <article class="heritage-card">
+            <img src="images/thumb-architecture.jpg" class="heritage-card-img" alt="Kath-Kuni Architecture">
+            <div class="heritage-card-body">
+              <span class="heritage-num">01 / Craftsmanship</span>
+              <h3 class="heritage-title">Kath-Kuni Architecture</h3>
+              <p class="heritage-text">
+                Alternating bands of cedar deodar wood and dry stones laid without mortar. This earthquake-resistant engineering allows temples and homes to flex safely across centuries.
+              </p>
+            </div>
+          </article>
+
+          <article class="heritage-card">
+            <img src="images/thumb-lore.jpg" class="heritage-card-img" alt="Ridges and Lore">
+            <div class="heritage-card-body">
+              <span class="heritage-num">02 / Geography & Sacred Ridges</span>
+              <h3 class="heritage-title">Mountain Contours</h3>
+              <p class="heritage-text">
+                High crests and deep pine ravines forming micro-climates where mountain shrines, terraced orchards, and village clans flourish together.
+              </p>
+            </div>
+          </article>
+
+          <article class="heritage-card">
+            <img src="images/thumb-seasons.jpg" class="heritage-card-img" alt="Apple Valleys">
+            <div class="heritage-card-body">
+              <span class="heritage-num">03 / Agrarian Cycles</span>
+              <h3 class="heritage-title">High-Altitude Orchards</h3>
+              <p class="heritage-text">
+                Snow-fed streams nourish terraced apple and potato cultivation. April turns the hills white with delicate blossoms, followed by deep amber harvests.
+              </p>
+            </div>
+          </article>
+
+          <article class="heritage-card">
+            <img src="images/elder-story-portrait.jpg" class="heritage-card-img" alt="Oral Memory">
+            <div class="heritage-card-body">
+              <span class="heritage-num">04 / Oral Memory</span>
+              <h3 class="heritage-title">Living Memory & Devtas</h3>
+              <p class="heritage-text">
+                Village elders safeguard oral ballads, trade route memories, and the sacred palanquin rituals of local mountain deities.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPACES SECTION -->
+    <section class="spaces-section" id="spaces">
+      <div class="container">
+        <div class="spaces-intro">
+          <span class="about-tag">Geography of the Mountain</span>
+          <h2 class="about-title">Spaces Across <span id="spaces-village-name">Theog</span></h2>
+        </div>
+
+        <div class="spaces-gallery">
+          <div class="space-tile space-tile-wide">
+            <img src="images/hero-himachali-village.jpg" alt="Vantage Point">
+            <div class="space-tile-caption">
+              <span class="space-tile-tag">Vantage Crest</span>
+              <div class="space-tile-name">Mountain Ridge Crest</div>
+              <div class="space-tile-desc">Panoramic outlook over cascading apple valleys and morning mist inversions.</div>
+            </div>
+          </div>
+
+          <div class="space-tile space-tile-narrow">
+            <img src="images/thumb-craft.jpg" alt="Heritage Market">
+            <div class="space-tile-caption">
+              <span class="space-tile-tag">Heritage Market</span>
+              <div class="space-tile-name">The Mountain Bazaar</div>
+              <div class="space-tile-desc">Wooden shopfronts where high-altitude wool, brassware, and teas trade.</div>
+            </div>
+          </div>
+
+          <div class="space-tile space-tile-third">
+            <img src="images/thumb-climate.jpg" alt="Sacred Groves">
+            <div class="space-tile-caption">
+              <span class="space-tile-tag">Sacred Groves</span>
+              <div class="space-tile-name">Deodar & Pine Canopies</div>
+              <div class="space-tile-desc">Himalayan cedar stands that scent the mist during fresh rain.</div>
+            </div>
+          </div>
+
+          <div class="space-tile space-tile-third">
+            <img src="images/thumb-water.jpg" alt="Water Source">
+            <div class="space-tile-caption">
+              <span class="space-tile-tag">Water Source</span>
+              <div class="space-tile-name">Spring Waters</div>
+              <div class="space-tile-desc">The perennial lifeblood watering the terraced mountain fields.</div>
+            </div>
+          </div>
+
+          <div class="space-tile space-tile-third">
+            <img src="images/thumb-music.jpg" alt="Community Courtyard">
+            <div class="space-tile-caption">
+              <span class="space-tile-tag">Community</span>
+              <div class="space-tile-name">Devta Fair Courtyard</div>
+              <div class="space-tile-desc">Circular paved courtyards where the traditional Naati dance continues till dusk.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section" id="contribute">
+      <div class="container cta-inner">
+        <span class="cta-tag">Living Village Archive</span>
+        <h2 class="cta-title">Every village has a story. <br><span id="cta-village-highlight">Help us preserve Theog.</span></h2>
+        <p class="cta-desc">
+          Do you have vintage family photographs, oral recordings from your grandparents, folk songs, or documents from this village? Contribute them to the Mera Ganv digital archive and keep the mountain memory alive.
+        </p>
+        <div class="cta-buttons">
+          <a href="#" id="cta-contribute-btn" class="btn-cta-primary">
+            Contribute a Story ↗
+          </a>
+          <a href="#" id="cta-wiki-btn" target="_blank" rel="noopener" class="btn-cta-secondary">
+            Read on Wikipedia ↗
+          </a>
+          <a href="index.html" class="btn-cta-secondary">
+            Return to Map
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Village Switcher Quick Button -->
+  <a href="index.html" class="village-switcher" title="Return to Himachal Pradesh Map">
+    <div class="village-switcher-dot"></div>
+    <span>Himachal Map</span>
+  </a>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand-title">मेरा गांव · meraganv.in</div>
+          <div class="footer-tagline">A people's geography of the mountain villages</div>
+        </div>
+        <div class="footer-coords" id="footer-coords">
+          Himachal Pradesh · Devbhoomi
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© Mera Ganv Archive · Preserving Himalayan Heritage</div>
+        <div class="footer-links">
+          <a href="index.html">Map of Himachal</a>
+          <a href="#about">About</a>
+          <a href="#film">Video</a>
+          <a href="mailto:xchirxg@gmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Data registry for villages
+    const VILLAGE_DATABASE = {
+      theog: {
+        village: "Theog",
+        hindi: "ठियोग",
+        district: "Shimla",
+        elev: "2,310m",
+        pop: "4,000",
+        type: "Town",
+        settled: "1902",
+        coords: "31°07'12\" N · 77°21'00\" E",
+        heroImg: "assets/theog-hero.jpg",
+        lead: "Theog is a historic town and municipal committee in Shimla district, sitting at 2,310 meters on the historic Hindustan-Tibet road, 28 km from Shimla.",
+        desc: "First settlements date back to 1902. Crowned by five distinctive mountain ghats (Premghat, Rahighat, Deorighat, Janoghat, and Bagaghat), it is renowned for terraced apple orchards, Kath-Kuni architecture, and vibrant trade heritage.",
+        yt: "klKnJHpaP8U",
+        kicker: "Not just a stop on the Hindustan-Tibet road",
+        statement: "A sanctuary carved into <b>five mountain ridges</b>"
+      },
+      dhamandri: {
+        village: "Dhamandri",
+        hindi: "धामंद्री",
+        district: "Shimla",
+        elev: "3,000m",
+        pop: "400-500",
+        type: "Village",
+        settled: "Ancient",
+        coords: "31°09'20\" N · 77°32'45\" E",
+        heroImg: "images/hero-himachali-village.jpg",
+        lead: "Dhamandri is an intimate, high-altitude village perched at 3,000 meters in Shimla district, enveloped in virgin deodar forests and ancient mountain silence.",
+        desc: "Home to 400-500 residents living in traditional slate and timber homes, Dhamandri preserves rich folk lore, seasonal pastoral migrations, and age-old rituals dedicated to mountain devtas.",
+        yt: "1186000104",
+        isVimeo: true,
+        kicker: "High sanctuary among the cedar clouds",
+        statement: "Living memory etched into <b>pine and stone</b>"
+      }
+    };
+
+    let currentVideoSrc = "";
+
+    function loadVillageData() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const vid = (urlParams.get('v') || urlParams.get('id') || 'theog').toLowerCase();
+      const v = VILLAGE_DATABASE[vid] || VILLAGE_DATABASE['theog'];
+
+      // Title & Navigation
+      document.getElementById('page-title').textContent = `${v.village} (${v.hindi}) | Mera Ganv — a village archive`;
+      document.getElementById('nav-village-tag').textContent = `${v.village} Archive`;
+      document.getElementById('loader-title').textContent = `मेरा गांव · ${v.village}`;
+
+      // Hero Elements
+      document.getElementById('hero-wordmark').textContent = v.village;
+      document.getElementById('hero-wordmark-hindi').textContent = `${v.hindi} · हिमाचल प्रदेश`;
+      document.getElementById('hero-elev-pill').textContent = v.elev;
+      document.getElementById('hero-location-text').innerHTML = `${v.district} District · <span>Devbhoomi</span> · ${v.coords}`;
+      document.getElementById('hero-kicker').textContent = v.kicker;
+      document.getElementById('hero-statement').innerHTML = v.statement;
+      document.getElementById('hero-photo-layer').style.backgroundImage = `url('${v.heroImg}')`;
+
+      // About Section
+      document.getElementById('about-village-name').textContent = `${v.village} (${v.hindi})`;
+      document.getElementById('about-lead').textContent = v.lead;
+      document.getElementById('about-desc-body').textContent = v.desc;
+      document.getElementById('film-poster').src = v.heroImg;
+
+      // Stats
+      document.getElementById('stat-elev').textContent = v.elev;
+      document.getElementById('stat-settled').textContent = v.settled;
+      document.getElementById('stat-type').textContent = v.type;
+      document.getElementById('stat-pop').textContent = v.pop;
+
+      // Heritage & Spaces titles
+      document.getElementById('heritage-village-name').textContent = v.village;
+      document.getElementById('spaces-village-name').textContent = v.village;
+      document.getElementById('cta-village-highlight').textContent = `Help us preserve ${v.village}.`;
+      document.getElementById('footer-coords').textContent = `${v.village}: ${v.coords} · Elevation ${v.elev}`;
+
+      // CTA links
+      const sub = encodeURIComponent(`Contribution: ${v.village} Archive - Mera Ganv`);
+      const body = encodeURIComponent(`Hello,\n\nI would like to contribute a story, photograph, or memory about ${v.village}, ${v.district}.\n\nDetails:\n[Write here]\n\n--`);
+      document.getElementById('cta-contribute-btn').href = `mailto:xchirxg@gmail.com?subject=${sub}&body=${body}`;
+      document.getElementById('cta-wiki-btn').href = `https://en.wikipedia.org/wiki/${encodeURIComponent(v.village)},_Himachal_Pradesh`;
+
+      // Video Source setup
+      if (v.isVimeo) {
+        currentVideoSrc = `https://player.vimeo.com/video/${v.yt}?autoplay=1`;
+      } else {
+        currentVideoSrc = `https://www.youtube-nocookie.com/embed/${v.yt}?autoplay=1&rel=0&modestbranding=1`;
+      }
+    }
+
+    function startFilm() {
+      const overlay = document.getElementById('film-overlay');
+      const iframe = document.getElementById('video-frame');
+      iframe.src = currentVideoSrc;
+      iframe.classList.add('active');
+      overlay.style.display = 'none';
+    }
+
+    // Loader
+    window.addEventListener('load', () => {
+      loadVillageData();
+      const bar = document.getElementById('loader-bar');
+      const loader = document.getElementById('page-loader');
+      if (bar) bar.style.width = '100%';
+      setTimeout(() => {
+        if (loader) loader.classList.add('hidden');
+      }, 700);
+    });
+
+    // Parallax
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const wordmark = document.querySelector('.hero-wordmark-container');
+      const peaks = document.querySelector('.hero-peaks');
+      const photo = document.getElementById('hero-photo-layer');
+      if (wordmark && scrolled < 900) {
+        wordmark.style.transform = `translateY(${scrolled * 0.22}px)`;
+      }
+      if (peaks && scrolled < 900) {
+        peaks.style.transform = `translateY(${scrolled * 0.12}px)`;
+      }
+      if (photo && scrolled < 900) {
+        photo.style.transform = `translateY(${scrolled * 0.16}px)`;
+      }
+    });
+  </script>
+</body>
+</html>
